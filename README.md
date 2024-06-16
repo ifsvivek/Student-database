@@ -1,4 +1,3 @@
-
 # Student Database
 
 A simple Flask application to manage a student database.
