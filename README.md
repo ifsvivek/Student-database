@@ -25,7 +25,7 @@ python -m venv env
 4. Activate the virtual environment:
 
 ```sh
-env\bin\activate
+env\Scripts\activate
 ```
 
 5. Install the required dependencies:
