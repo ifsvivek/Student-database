@@ -36,6 +36,3 @@ def get_student_marks(connection, usn):
 
     for record in records:
         print(record)
-
-
-connection = create_connection("localhost", "root", "1234", "dbms")

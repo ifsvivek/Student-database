@@ -1,12 +1,18 @@
 from flask import Flask, request, render_template
 from functions import create_connection, insert_student_marks
 from flask import jsonify
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
+host_name = os.getenv("HOST_NAME")
+user_name = os.getenv("USER_NAME")
+password = os.getenv("PASSWORD")
+db_name = os.getenv("DB_NAME")
 
-# Create a connection to the database
-connection = create_connection("localhost", "root", "1234", "dbms")
-
+connection = create_connection(host_name, user_name, password, db_name)
 
 @app.route("/")
 def form():
