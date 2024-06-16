@@ -56,7 +56,7 @@ The application will be accessible at [`http://localhost:8000`](http://localhost
 -   `app.py`: This is the main application file where the Flask application is defined and routes are set up.
 -   `functions.py`: This file contains functions for interacting with the MySQL database.
 -   `templates/index.html`: This is the HTML template for the form and table.
--   `requirements.txt: This file lists the Python dependencies of the project.
+-   `requirements.txt`: This file lists the Python dependencies of the project.
 -   `.gitignore`: This file specifies the files and directories that should be ignored by Git.
 
 ## Dependencies
