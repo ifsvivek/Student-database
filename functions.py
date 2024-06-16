@@ -24,15 +24,3 @@ def insert_student_marks(connection, usn, name, age, branch, total_marks):
     connection.commit()
 
     print("Student marks inserted successfully.")
-
-
-def get_student_marks(connection, usn):
-    cursor = connection.cursor()
-    query = "SELECT * FROM students WHERE usn = %s"
-    values = (usn,)
-
-    cursor.execute(query, values)
-    records = cursor.fetchall()
-
-    for record in records:
-        print(record)
