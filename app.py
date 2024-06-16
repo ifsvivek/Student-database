@@ -14,6 +14,7 @@ db_name = os.getenv("DB_NAME")
 
 connection = create_connection(host_name, user_name, password, db_name)
 
+
 @app.route("/")
 def form():
     return render_template("index.html")
