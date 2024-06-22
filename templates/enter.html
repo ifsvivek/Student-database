@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const columns = {
+                "LOGIN": "LOGIN_USERNAME, USER_PASSWORD, LOGIN_ROLE_ID, LOGIN_ID",
+                "USER": "USER_ID, USER_NAME, USER_MOBILE_NUMBER, USER_EMAIL, USER_ADDRESS",
+                "MEDICINE": "M_NAME, M_ID, MEDICINE_TYPE, DOSAGE, COST, DESCRIPTION",
+                "COMPANY": "C_NAME, C_ID, C_ADDRESS",
+            };
+
+            const form = document.getElementById('dataForm');
+            const radioButtons = document.querySelectorAll('input[type="radio"]');
+
+            radioButtons.forEach(radioButton => {
+                radioButton.addEventListener('change', function () {
+                    updateForm();
+                });
+            });
+
+            function updateForm() {
+                const selectedTable = Array.from(radioButtons).find(radioButton => radioButton.checked)?.value;
+                const fieldsContainer = document.getElementById('fieldsContainer');
+                fieldsContainer.innerHTML = ''; // Clear previous fields
+
+                if (selectedTable && columns[selectedTable]) {
+                    const fields = columns[selectedTable].split(', ');
+                    fields.forEach(field => {
+                        const inputGroup = document.createElement('div');
+                        inputGroup.className = 'mb-6';
+
+                        const label = document.createElement('label');
+                        label.className = 'block text-gray-700 text-sm font-bold mb-2';
+                        label.textContent = `Enter ${field}:`;
+
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.name = field;
+                        input.className = 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline';
+
+                        inputGroup.appendChild(label);
+                        inputGroup.appendChild(input);
+
+                        fieldsContainer.appendChild(inputGroup);
+                    });
+                }
+            }
+        });
+    </script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <form id="dataForm" action="/enter_data" method="post" class="bg-white p-10 rounded-lg shadow-lg min-w-screen-md">
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Select Table:</label>
+            <div>
+                <input type="radio" id="login" name="table" value="LOGIN">
+                <label for="login">LOGIN</label>
+            </div>
+            <div>
+                <input type="radio" id="user" name="table" value="USER">
+                <label for="user">USER</label>
+            </div>
+            <div>
+                <input type="radio" id="medicine" name="table" value="MEDICINE">
+                <label for="medicine">MEDICINE</label>
+            </div>
+            <div>
+                <input type="radio" id="company" name="table" value="COMPANY">
+                <label for="company">COMPANY</label>
+            </div>
+        </div>
+        <div id="fieldsContainer">
+            <!-- Dynamic fields will be added here -->
+        </div>
+        <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+    </form>
+</body>
+
+</html>

@@ -1,68 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Form Submission</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Database Operations</title>
+    <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#myForm").on("submit", function (event) {
-                event.preventDefault();
-                var usn = $("#USN").val();
-                var name = $("#Name").val();
-                var age = $("#Age").val();
-                var branch = $("#Branch").val();
-                var total_marks = $("#TotalMarks").val();
-                $.post("/insert_student_marks", { usn: usn, name: name, age: age, branch: branch, total_marks: total_marks }, function (data) {
-                    $("#display").html("<h2>" + data.message + "</h2>");
-                });
-            });
-
-            $("#showTable").on("click", function () {
-                $.get("/get_all_students", function (data) {
-                    var table = "<table class='table-auto w-full'>";
-                    table += "<thead><tr><th class='px-4 py-2'>USN</th><th class='px-4 py-2'>Name</th><th class='px-4 py-2'>Age</th><th class='px-4 py-2'>Branch</th><th class='px-4 py-2'>Total Marks</th></tr></thead><tbody>";
-                    for (var i = 0; i < data.length; i++) {
-                        table += "<tr><td class='border px-4 py-2'>" + data[i].usn + "</td><td class='border px-4 py-2'>" + data[i].name + "</td><td class='border px-4 py-2'>" + data[i].age + "</td><td class='border px-4 py-2'>" + data[i].branch + "</td><td class='border px-4 py-2'>" + data[i].total_marks + "</td></tr>";
-                    }
-                    table += "</tbody></table>";
-                    $("#display").html(table);
-                });
-            }); // This was missing
-        }); // This was missing
-    </script>
 </head>
 
-<body class="bg-gray-200 p-6">
-    <div class="flex justify-between">
-        <form id="myForm" class="bg-white rounded px-8 pt-6 pb-8 mb-4 w-1/2">
-            <label for="USN" class="block text-gray-700 text-sm font-bold mb-2">USN:</label>
-            <input type="text" id="USN" name="USN"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
-            <label for="Name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
-            <input type="text" id="Name" name="Name"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
-            <label for="Age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
-            <input type="text" id="Age" name="Age"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
-            <label for="Branch" class="block text-gray-700 text-sm font-bold mb-2">Branch:</label>
-            <input type="text" id="Branch" name="Branch"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
-            <label for="TotalMarks" class="block text-gray-700 text-sm font-bold mb-2">Total Marks:</label>
-            <input type="text" id="TotalMarks" name="TotalMarks"
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4">
-
-            <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-        </form>
-        <div>
-            <div class="flex justify-end mb-4">
-                <button id="showTable" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Show Table</button>
-            </div>
-            <div class="flex justify-end">
-                <div id="display" class="mt-6"></div>
-            </div>
-        </div>
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-10">
+        <h1 class="text-4xl font-bold text-center mb-6">Pharmacy Database Operations</h1>
+        <h2 class="text-2xl font-bold text-center mb-6">Operations</h2>
+        <ul class="list-none">
+            <li class="mb-2"><a href="/enter" class="text-blue-500 hover:text-blue-700">1. Enter Data</a></li>
+            <li class="mb-2"><a href="/display" class="text-blue-500 hover:text-blue-700">2. Display Data</a></li>
+            <li class="mb-2"><a href="/update" class="text-blue-500 hover:text-blue-700">3. Update Data</a></li>
+            <li class="mb-2"><a href="/delete" class="text-blue-500 hover:text-blue-700">4. Delete Data</a></li>
+            <li class="mb-2"><a href="/search" class="text-blue-500 hover:text-blue-700">5. Search Data</a></li>
+        </ul>
     </div>
 </body>
 

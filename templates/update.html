@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tables = document.querySelectorAll('input[name="table"]');
+            tables.forEach(table => {
+                table.addEventListener('change', handleTableChange);
+            });
+        });
+
+        function handleTableChange(event) {
+            const dataEntryArea = document.getElementById('dataEntryArea');
+            dataEntryArea.innerHTML = ''; // Clear previous entries
+            const columns = {
+                "LOGIN": ["LOGIN_USERNAME", "USER_PASSWORD", "LOGIN_ROLE_ID", "LOGIN_ID"],
+                "USER": ["USER_ID", "USER_NAME", "USER_MOBILE_NUMBER", "USER_EMAIL", "USER_ADDRESS"],
+                "MEDICINE": ["M_NAME", "M_ID", "MEDICINE_TYPE", "DOSAGE", "COST", "DESCRIPTION"],
+                "COMPANY": ["C_NAME", "C_ID", "C_ADDRESS"],
+            };
+            const selectedTable = event.target.value;
+            const inputs = columns[selectedTable].map(column => {
+                return `<div class="mb-6">
+                            <label for="${column}" class="block text-gray-700 text-sm font-bold mb-2">${column.replace('_', ' ')}:</label>
+                            <input type="text" id="${column}" name="data[${column}]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>`;
+            }).join('');
+            dataEntryArea.innerHTML = inputs;
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <form action="/update_data" method="post" class="bg-white p-10 rounded-lg shadow-lg min-w-screen-md">
+        <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Select Table:</label>
+            <div>
+                <input type="radio" id="login" name="table" value="LOGIN">
+                <label for="login">LOGIN</label>
+            </div>
+            <div>
+                <input type="radio" id="user" name="table" value="USER">
+                <label for="user">USER</label>
+            </div>
+            <div>
+                <input type="radio" id="medicine" name="table" value="MEDICINE">
+                <label for="medicine">MEDICINE</label>
+            </div>
+            <div>
+                <input type="radio" id="company" name="table" value="COMPANY">
+                <label for="company">COMPANY</label>
+            </div>
+        </div>
+        <div id="dataEntryArea">
+            <!-- Dynamic data entry fields will be inserted here -->
+        </div>
+        <input type="submit" value="Submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+    </form>
+</body>
+</html>
