@@ -90,17 +90,7 @@ def web_update_data():
 
 @app.route("/delete")
 def web_delete():
-    return render_template_string(
-        """
-    <form action="/delete_data" method="post">
-        <label for="table">Enter the table name:</label>
-        <input type="text" id="table" name="table">
-        <label for="data">Enter the data:</label>
-        <input type="text" id="data" name="data">
-        <input type="submit" value="Submit">
-    </form>
-    """
-    )
+    return render_template("delete.html")
 
 
 @app.route("/delete_data", methods=["POST"])
@@ -111,22 +101,26 @@ def Web_delete_data():
     db = connect_database()
     delete_data(db, table, data)
     db.close()
-    return "Data deleted successfully!"
+    # Return a small HTML page with JavaScript for the alert
+    return """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Data Deleted</title>
+        <script type="text/javascript">
+            alert("Data deleted successfully!");
+            window.location.href = "/"; // Redirect back to the homepage or another page
+        </script>
+    </head>
+    <body>
+    </body>
+    </html>
+    """
 
 
 @app.route("/search")
 def web_search():
-    return render_template_string(
-        """
-    <form action="/search_data" method="post">
-        <label for="table">Enter the table name:</label>
-        <input type="text" id="table" name="table">
-        <label for="data">Enter the data:</label>
-        <input type="text" id="data" name="data">
-        <input type="submit" value="Submit">
-    </form>
-    """
-    )
+    return render_template("search_form.html")
 
 
 @app.route("/search_data", methods=["POST"])
@@ -135,9 +129,10 @@ def web_search_data():
     data = request.form["data"]
     data = tuple(data.split(","))
     db = connect_database()
-    search_data(db, table, data)
+    results = search_data(db, table, data)  # Assuming this returns a list of tuples representing rows
     db.close()
-    return "Data searched successfully!"
+    # Render a template with the results
+    return render_template("search_results.html", results=results, table=table)
 
 
 if __name__ == "__main__":

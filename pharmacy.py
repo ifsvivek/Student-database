@@ -44,21 +44,20 @@ def enter_data(db, table, data):
         cursor.close()
 
 
-
 def display_data(db, table):
     cursor = db.cursor()
     query = f"SELECT * FROM {table}"
     cursor.execute(query)
     t = PrettyTable()
     t.field_names = [i[0] for i in cursor.description]
-    
+
     data = []
     for row in cursor:
         row_data = {}
         for i, col in enumerate(cursor.description):
             row_data[col[0]] = row[i]
         data.append(row_data)
-    
+
     cursor.close()
     return data
 
@@ -67,9 +66,18 @@ def update_data(db, table, data):
     cursor = db.cursor()
     try:
         columns = {
-            "LOGIN": ("LOGIN_USERNAME=%s, USER_PASSWORD=%s, LOGIN_ROLE_ID=%s", "LOGIN_ID=%s"),
-            "USER": ("USER_NAME=%s, USER_MOBILE_NUMBER=%s, USER_EMAIL=%s, USER_ADDRESS=%s", "USER_ID=%s"),
-            "MEDICINE": ("M_NAME=%s, MEDICINE_TYPE=%s, DOSAGE=%s, COST=%s, DESCRIPTION=%s", "M_ID=%s"),
+            "LOGIN": (
+                "LOGIN_USERNAME=%s, USER_PASSWORD=%s, LOGIN_ROLE_ID=%s",
+                "LOGIN_ID=%s",
+            ),
+            "USER": (
+                "USER_NAME=%s, USER_MOBILE_NUMBER=%s, USER_EMAIL=%s, USER_ADDRESS=%s",
+                "USER_ID=%s",
+            ),
+            "MEDICINE": (
+                "M_NAME=%s, MEDICINE_TYPE=%s, DOSAGE=%s, COST=%s, DESCRIPTION=%s",
+                "M_ID=%s",
+            ),
             "COMPANY": ("C_NAME=%s, C_ADDRESS=%s", "C_ID=%s"),
         }
 
@@ -110,6 +118,7 @@ def delete_data(db, table, data):
 
 def search_data(db, table, data):
     cursor = db.cursor()
+    query = ""
     if table == "LOGIN":
         query = "SELECT * FROM LOGIN WHERE LOGIN_ID=%s"
     elif table == "USER":
@@ -119,46 +128,15 @@ def search_data(db, table, data):
     elif table == "COMPANY":
         query = "SELECT * FROM COMPANY WHERE C_ID=%s"
     cursor.execute(query, data)
-    t = PrettyTable()
-    t.field_names = [i[0] for i in cursor.description]
-    for row in cursor:
-        t.add_row(row)
-    print(t)
+
+    # Fetch all rows from cursor
+    rows = cursor.fetchall()
+
+    # Get column headers
+    columns = [i[0] for i in cursor.description]
+
+    # Convert rows and columns to a list of dictionaries
+    results = [dict(zip(columns, row)) for row in rows]
+
     cursor.close()
-
-
-# db = connect_database()
-# while True:
-#     print("1. Enter Data")
-#     print("2. Display Data")
-#     print("3. Update Data")
-#     print("4. Delete Data")
-#     print("5. Search Data")
-#     print("6. Exit")
-#     choice = int(input("Enter your choice: "))
-#     if choice == 1:
-#         table = input("Enter the table name: ")
-#         data = input("Enter the data: ")
-#         data = tuple(data.split(","))
-#         enter_data(db, table, data)
-#     elif choice == 2:
-#         table = input("Enter the table name: ")
-#         display_data(db, table)
-#     elif choice == 3:
-#         table = input("Enter the table name: ")
-#         data = input("Enter the data: ")
-#         data = tuple(data.split(","))
-#         update_data(db, table, data)
-#     elif choice == 4:
-#         table = input("Enter the table name: ")
-#         data = input("Enter the data: ")
-#         data = tuple(data.split(","))
-#         delete_data(db, table, data)
-#     elif choice == 5:
-#         table = input("Enter the table name: ")
-#         data = input("Enter the data: ")
-#         data = tuple(data.split(","))
-#         search_data(db, table, data)
-#     elif choice == 6:
-#         break
-# db.close()
+    return results
