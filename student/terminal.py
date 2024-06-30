@@ -1,4 +1,4 @@
-from functions import create_connection, insert_student_marks
+from student.functions import create_connection, insert_student_marks
 
 while True:
     print("1. Insert student marks")

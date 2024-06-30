@@ -1,5 +1,5 @@
 from flask import *
-from pharmacy import *
+from pharmacy.pharmacy import *
 import json
 
 

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2 {
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        #error-message {
+            color: #d9534f;
+        }
+
+        #employee-details {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #employee-details li {
+            background: #e7e7e7;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Employee Management System</h1>
+
+    <!-- Form to Create Employee -->
+    <h2>Create Employee</h2>
+    <form id="create-form">
+        <label>First Name: <input type="text" id="fname" name="fname" required></label><br>
+        <label>Last Name: <input type="text" id="lname" name="lname" required></label><br>
+        <label>SSN: <input type="text" id="ssn" name="ssn" required></label><br>
+        <label>Birth Date: <input type="date" id="bdate" name="bdate" required></label><br>
+        <label>Address: <input type="text" id="address" name="address" required></label><br>
+        <label>Sex: <input type="text" id="sex" name="sex" required></label><br>
+        <label>Salary: <input type="number" id="salary" name="salary" required></label><br>
+        <label>Super SSN: <input type="text" id="super_ssn" name="super_ssn"></label><br>
+        <label>Department Number: <input type="number" id="deptno" name="deptno"></label><br>
+        <button type="submit">Create</button>
+    </form>
+
+    <!-- Form to Get Employee by SSN -->
+    <h2>Get Employee</h2>
+    <form id="get-form">
+        <label>SSN: <input type="text" id="get-ssn" name="ssn" required></label><br>
+        <button type="submit">Get Employee</button>
+    </form>
+
+    <!-- Display Employee Data -->
+    <div id="employee-data">
+        <h2>Employee Details</h2>
+        <ul id="employee-details"></ul>
+    </div>
+
+    <!-- Form to Update Employee -->
+    <h2>Update Employee</h2>
+    <form id="update-form">
+        <label>SSN: <input type="text" id="update-ssn" name="ssn" required></label><br>
+        <label>First Name: <input type="text" id="update-fname" name="fname"></label><br>
+        <label>Last Name: <input type="text" id="update-lname" name="lname"></label><br>
+        <label>Birth Date: <input type="date" id="update-bdate" name="bdate"></label><br>
+        <label>Address: <input type="text" id="update-address" name="address"></label><br>
+        <label>Sex: <input type="text" id="update-sex" name="sex"></label><br>
+        <label>Salary: <input type="number" id="update-salary" name="salary"></label><br>
+        <label>Super SSN: <input type="text" id="update-super_ssn" name="super_ssn"></label><br>
+        <label>Department Number: <input type="number" id="update-deptno" name="deptno"></label><br>
+        <button type="submit">Update</button>
+    </form>
+
+    <!-- Form to Delete Employee -->
+    <h2>Delete Employee</h2>
+    <form id="delete-form">
+        <label>SSN: <input type="text" id="delete-ssn" name="ssn" required></label><br>
+        <button type="submit">Delete</button>
+    </form>
+
+    <!-- Script to Handle Form Submissions -->
+    <script>
+        // Function to reset form fields
+        function resetForm(formId) {
+            document.getElementById(formId).reset();
+        }
+
+        // Function to display employee details
+        function displayEmployeeDetails(data) {
+            // Clear previous data
+            document.getElementById('employee-details').innerHTML = '';
+
+            // Create list items for each property
+            Object.entries(data).forEach(([key, value]) => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
+                document.getElementById('employee-details').appendChild(listItem);
+            });
+        }
+
+        // Create Employee Form Submission
+        document.getElementById('create-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            fetch('/employee', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fname: document.getElementById('fname').value,
+                    lname: document.getElementById('lname').value,
+                    ssn: document.getElementById('ssn').value,
+                    bdate: document.getElementById('bdate').value,
+                    address: document.getElementById('address').value,
+                    sex: document.getElementById('sex').value,
+                    salary: parseFloat(document.getElementById('salary').value),
+                    super_ssn: document.getElementById('super_ssn').value,
+                    deptno: parseInt(document.getElementById('deptno').value),
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    resetForm('create-form');
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        // Get Employee Form Submission
+        document.getElementById('get-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const ssn = document.getElementById('get-ssn').value;
+            fetch(`/employee/${ssn}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Employee not found');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayEmployeeDetails(data);
+                })
+                .catch(error => {
+                    const errorElem = document.createElement('p');
+                    errorElem.textContent = error.message;
+                    document.getElementById('employee-details').appendChild(errorElem);
+                });
+        });
+
+        // Update Employee Form Submission
+        document.getElementById('update-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const ssn = document.getElementById('update-ssn').value;
+            fetch(`/employee/${ssn}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fname: document.getElementById('update-fname').value,
+                    lname: document.getElementById('update-lname').value,
+                    bdate: document.getElementById('update-bdate').value,
+                    address: document.getElementById('update-address').value,
+                    sex: document.getElementById('update-sex').value,
+                    salary: parseFloat(document.getElementById('update-salary').value),
+                    super_ssn: document.getElementById('update-super_ssn').value,
+                    deptno: parseInt(document.getElementById('update-deptno').value),
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    resetForm('update-form');
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        // Delete Employee Form Submission
+        document.getElementById('delete-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const ssn = document.getElementById('delete-ssn').value;
+            fetch(`/employee/${ssn}`, {
+                method: 'DELETE',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    resetForm('delete-form');
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+
+</html>

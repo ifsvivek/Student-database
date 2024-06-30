@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from functions import create_connection, insert_student_marks
+from student.functions import create_connection, insert_student_marks
 from flask import jsonify
 from dotenv import load_dotenv
 import os
