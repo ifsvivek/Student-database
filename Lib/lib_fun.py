@@ -1,6 +1,5 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import *
 import mysql.connector
-from prettytable import PrettyTable
 
 app = Flask(__name__)
 

@@ -1,10 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library Management System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            /* Added to align items in a row */
+            flex-wrap: wrap;
+            /* Allows items to wrap in the next line */
+            justify-content: center;
+            /* Center align the items */
+        }
+
+        nav ul li {
+            margin: 10px 5px;
+            /* Adjusted margin for spacing around each link */
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            background-color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Welcome to the Library Management System</h1>
     <nav>
@@ -18,4 +63,5 @@
         </ul>
     </nav>
 </body>
+
 </html>
