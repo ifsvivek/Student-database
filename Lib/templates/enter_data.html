@@ -1,36 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enter Data</title>
 </head>
+
 <body>
-    <h1>Enter Data for {{ table }}</h1>
+    {% if table == "BOOKS" %}
+    <h1>Enter Data for Books</h1>
     <form action="/enter_data" method="post">
-        <input type="hidden" name="table" value="{{ table }}">
+        <input type="hidden" name="table" value="BOOKS">
         <div>
-            <label for="field1">Field 1:</label>
-            <input type="text" id="field1" name="field1" required>
+            <label for="book_id">Book ID:</label>
+            <input type="number" id="book_id" name="field1" required>
         </div>
         <div>
-            <label for="field2">Field 2:</label>
-            <input type="text" id="field2" name="field2" required>
+            <label for="author_name">Author Name:</label>
+            <input type="text" id="author_name" name="field2" required>
         </div>
         <div>
-            <label for="field3">Field 3:</label>
-            <input type="text" id="field3" name="field3">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="field3" required>
         </div>
         <div>
-            <label for="field4">Field 4:</label>
-            <input type="text" id="field4" name="field4">
+            <label for="edition">Edition:</label>
+            <input type="text" id="edition" name="field4" required>
         </div>
         <div>
-            <label for="field5">Field 5:</label>
-            <input type="text" id="field5" name="field5">
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="field5" required>
         </div>
         <button type="submit">Submit</button>
     </form>
+    {% elif table == "PUBLISHER" %}
+    <h1>Enter Data for Publisher</h1>
+    <form action="/enter_data" method="post">
+        <input type="hidden" name="table" value="PUBLISHER">
+        <div>
+            <label for="publisher_id">Publisher ID:</label>
+            <input type="number" id="publisher_id" name="field1" required>
+        </div>
+        <div>
+            <label for="publisher_name">Publisher Name:</label>
+            <input type="text" id="publisher_name" name="field2" required>
+        </div>
+        <div>
+            <label for="year_of_publication">Year of Publication:</label>
+            <input type="number" id="year_of_publication" name="field3" required>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    {% elif table == "PUBLISHES" %}
+
+    <h1>Enter Data for Publishes</h1>
+    <form action="/enter_data" method="post">
+        <input type="hidden" name="table" value="PUBLISHES">
+        <div>
+            <label for="book_id">Book ID:</label>
+            <input type="number" id="book_id" name="field1" required>
+        </div>
+        <div>
+            <label for="p_id">Publisher ID:</label>
+            <input type="number" id="p_id" name="field2" required>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
     <a href="/">Back to Home</a>
 </body>
+
 </html>
