@@ -8,7 +8,7 @@ app = Flask(__name__)
 def create_connection():
     cnx = mysql.connector.connect(
         user="root",
-        password="",
+        password="1234",
         host="localhost",
         database="library",
     )
@@ -24,21 +24,33 @@ def index():
 def enter_data():
     if request.method == "POST":
         table = request.form["table"]
-        data = (
-            request.form["field1"],
-            request.form["field2"],
-            request.form["field3"],
-            request.form["field4"],
-            request.form["field5"],
-        )
-        cnx = create_connection()
-        cursor = cnx.cursor()
+        # Initialize an empty data tuple
+        data = ()
         if table == "BOOKS":
+            data = (
+                request.form["field1"],
+                request.form["field2"],
+                request.form["field3"],
+                request.form["field4"],
+                request.form["field5"],
+            )
             query = "INSERT INTO BOOKS (BOOK_ID, AUTHOR_NAME, TITLE, EDITION, PRICE) VALUES (%s, %s, %s, %s, %s)"
         elif table == "PUBLISHER":
+            data = (
+                request.form["field1"],
+                request.form["field2"],
+                request.form["field3"],
+            )
             query = "INSERT INTO PUBLISHER (P_ID, PNAME, YOP) VALUES (%s, %s, %s)"
         elif table == "PUBLISHES":
+            data = (
+                request.form["field1"],
+                request.form["field2"],
+            )
             query = "INSERT INTO PUBLISHES (BOOK_ID, P_ID) VALUES (%s, %s)"
+
+        cnx = create_connection()
+        cursor = cnx.cursor()
         cursor.execute(query, data)
         cnx.commit()
         cursor.close()
@@ -49,7 +61,7 @@ def enter_data():
 @app.route("/display_data/<table>")
 def display_data(table):
     cnx = create_connection()
-    cursor = cnx.cursor()
+    cursor = cnx.cursor(dictionary=True)
     query = f"SELECT * FROM {table}"
     cursor.execute(query)
     data = cursor.fetchall()
