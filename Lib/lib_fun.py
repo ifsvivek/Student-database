@@ -24,7 +24,6 @@ def index():
 def enter_data():
     if request.method == "POST":
         table = request.form["table"]
-        # Initialize an empty data tuple
         data = ()
         if table == "BOOKS":
             data = (
