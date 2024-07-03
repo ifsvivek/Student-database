@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Train Records</title>
+</head>
+<body>
+    <h1>Train Records</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Cost</th>
+            <th>Distance</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for train in trains %}
+        <tr>
+            <td>{{ train[0] }}</td>
+            <td>{{ train[1] }}</td>
+            <td>{{ train[2] }}</td>
+            <td>{{ train[3] }}</td>
+            <td>{{ train[4] }}</td>
+            <td>
+                <a href="/update/{{ train[0] }}">Edit</a>
+                <a href="/delete/{{ train[0] }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="/add">Add New Train</a>
+</body>
+</html>

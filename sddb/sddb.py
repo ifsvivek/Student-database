@@ -3,11 +3,13 @@ import mysql.connector
 
 app = Flask(__name__)
 
+
 # Function to get a database connection
 def get_db_connection():
     return mysql.connector.connect(
         host="localhost", user="root", password="1234", database="appy"
     )
+
 
 # Create the employee table if it doesn't exist
 def create_table():
@@ -29,11 +31,14 @@ def create_table():
     cursor.close()
     conn.close()
 
+
 create_table()
+
 
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 # Route to insert an employee
 @app.route("/employee", methods=["POST"])
@@ -61,6 +66,7 @@ def create_employee():
     conn.close()
     return jsonify({"message": "Employee created successfully"}), 201
 
+
 # Route to get all employees
 @app.route("/employees", methods=["GET"])
 def get_employees():
@@ -71,6 +77,7 @@ def get_employees():
     cursor.close()
     conn.close()
     return jsonify(employees), 200
+
 
 # Route to get a specific employee by ssn
 @app.route("/employee/<ssn>", methods=["GET"])
@@ -84,6 +91,7 @@ def get_employee(ssn):
     if not employee:
         return jsonify({"message": "Employee not found"}), 404
     return jsonify(employee), 200
+
 
 # Route to update an employee by ssn
 @app.route("/employee/<ssn>", methods=["PUT"])
@@ -111,6 +119,7 @@ def update_employee(ssn):
     conn.close()
     return jsonify({"message": "Employee updated successfully"}), 200
 
+
 # Route to delete an employee by ssn
 @app.route("/employee/<ssn>", methods=["DELETE"])
 def delete_employee(ssn):
@@ -121,6 +130,7 @@ def delete_employee(ssn):
     cursor.close()
     conn.close()
     return jsonify({"message": "Employee deleted successfully"}), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)

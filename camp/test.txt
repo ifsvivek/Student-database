@@ -1,0 +1,8 @@
+CREATE TABLE championship (
+    team_id INT PRIMARY KEY,
+    team_name VARCHAR(100),
+    team_coach VARCHAR(100),
+    captain VARCHAR(100),
+    total_players INT,
+    interest VARCHAR(100)
+);

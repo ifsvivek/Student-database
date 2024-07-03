@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Championship Database</title>
+</head>
+<body>
+    <h1>Championship Database</h1>
+    <form action="/add" method="POST">
+        <input type="text" name="team_name" placeholder="Team Name" required>
+        <input type="text" name="team_coach" placeholder="Team Coach" required>
+        <input type="text" name="captain" placeholder="Captain" required>
+        <input type="number" name="total_players" placeholder="Total Players" required>
+        <input type="text" name="interest" placeholder="Interest" required>
+        <button type="submit">Add Team</button>
+    </form>
+    <hr>
+    <table border="1">
+        <tr>
+            <th>Team ID</th>
+            <th>Team Name</th>
+            <th>Team Coach</th>
+            <th>Captain</th>
+            <th>Total Players</th>
+            <th>Interest</th>
+            <th>Actions</th>
+        </tr>
+        {% for team in teams %}
+        <tr>
+            <td>{{ team[0] }}</td>
+            <td>{{ team[1] }}</td>
+            <td>{{ team[2] }}</td>
+            <td>{{ team[3] }}</td>
+            <td>{{ team[4] }}</td>
+            <td>{{ team[5] }}</td>
+            <td>
+                <form action="/update/{{ team[0] }}" method="POST">
+                    <input type="text" name="team_name" value="{{ team[1] }}" required>
+                    <input type="text" name="team_coach" value="{{ team[2] }}" required>
+                    <input type="text" name="captain" value="{{ team[3] }}" required>
+                    <input type="number" name="total_players" value="{{ team[4] }}" required>
+                    <input type="text" name="interest" value="{{ team[5] }}" required>
+                    <button type="submit">Update</button>
+                </form>
+                <a href="/delete/{{ team[0] }}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

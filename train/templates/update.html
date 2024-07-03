@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Train</title>
+</head>
+<body>
+    <h1>Update Train</h1>
+    <form action="/update/{{ train[0] }}" method="POST">
+        <label>Name:</label><br>
+        <input type="text" name="name" value="{{ train[1] }}" required><br><br>
+        
+        <label>Cost:</label><br>
+        <input type="number" name="cost" value="{{ train[2] }}" required><br><br>
+        
+        <label>Distance:</label><br>
+        <input type="number" name="distance" value="{{ train[3] }}" required><br><br>
+        
+        <label>Date:</label><br>
+        <input type="text" name="date" value="{{ train[4] }}" required><br><br>
+        
+        <input type="submit" value="Update Train">
+    </form>
+</body>
+</html>
