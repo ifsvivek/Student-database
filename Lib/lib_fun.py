@@ -66,6 +66,7 @@ def display_data(table):
     cursor.close()
     return render_template("display_data.html", data=data, table=table)
 
+
 @app.route("/delete_data/<table>/<id>", methods=["POST"])
 def delete_data(table, id):
     cnx = create_connection()
@@ -75,6 +76,7 @@ def delete_data(table, id):
     cnx.commit()
     cursor.close()
     return redirect(url_for("display_data", table=table))
+
 
 @app.route("/update_data/<table>/<id>", methods=["GET", "POST"])
 def update_data(table, id):
@@ -103,17 +105,26 @@ def update_data(table, id):
                 request.form["field2"],
                 id,
             )
-            query = "UPDATE PUBLISHES SET BOOK_ID=%s, P_ID=%s WHERE BOOK_ID=%s"
+            query = (
+                "UPDATE PUBLISHES SET BOOK_ID=%s, P_ID=%s WHERE BOOK_ID=%s AND P_ID=%s"
+            )
         cnx = create_connection()
         cursor = cnx.cursor()
         cursor.execute(query, data)
         cnx.commit()
         cursor.close()
         return redirect(url_for("display_data", table=table))
-    
+
     cnx = create_connection()
     cursor = cnx.cursor()
-    query = f"SELECT * FROM {table} WHERE ID = %s"
+
+    if table == "BOOKS":
+        query = "SELECT BOOK_ID, AUTHOR_NAME, TITLE, EDITION, PRICE FROM BOOKS WHERE BOOK_ID = %s"
+    elif table == "PUBLISHER":
+        query = "SELECT P_ID, PNAME, YOP FROM PUBLISHER WHERE P_ID = %s"
+    elif table == "PUBLISHES":
+        query = "SELECT BOOK_ID, P_ID FROM PUBLISHES WHERE BOOK_ID = %s AND P_ID = %s"
+
     cursor.execute(query, (id,))
     data = cursor.fetchone()
     cursor.close()
