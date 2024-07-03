@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Update Data</title>
+</head>
+
+<body>
+    <h1>Update Data in {{ table }}</h1>
+    <form action="" method="POST">
+        {% if table == "BOOKS" %}
+        <label for="field1">Book ID:</label>
+        <input type="text" id="field1" name="field1" value="{{ data[0] }}" required><br>
+        <label for="field2">Author Name:</label>
+        <input type="text" id="field2" name="field2" value="{{ data[1] }}" required><br>
+        <label for="field3">Title:</label>
+        <input type="text" id="field3" name="field3" value="{{ data[2] }}" required><br>
+        <label for="field4">Edition:</label>
+        <input type="text" id="field4" name="field4" value="{{ data[3] }}" required><br>
+        <label for="field5">Price:</label>
+        <input type="text" id="field5" name="field5" value="{{ data[4] }}" required><br>
+        {% elif table == "PUBLISHER" %}
+        <label for="field1">Publisher ID:</label>
+        <input type="text" id="field1" name="field1" value="{{ data[0] }}" required><br>
+        <label for="field2">Publisher Name:</label>
+        <input type="text" id="field2" name="field2" value="{{ data[1] }}" required><br>
+        <label for="field3">Year of Publication:</label>
+        <input type="text" id="field3" name="field3" value="{{ data[2] }}" required><br>
+        {% elif table == "PUBLISHES" %}
+        <label for="field1">Book ID:</label>
+        <input type="text" id="field1" name="field1" value="{{ data[0] }}" required><br>
+        <label for="field2">Publisher ID:</label>
+        <input type="text" id="field2" name="field2" value="{{ data[1] }}" required><br>
+        {% endif %}
+        <button type="submit">Update</button>
+    </form>
+    <a href="{{ url_for('display_data', table=table) }}">Back</a>
+</body>
+
+</html>

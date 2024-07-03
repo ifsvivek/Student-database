@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Data</title>
+</head>
+
+<body>
+    <h1>Delete Data</h1>
+    <form action="" method="POST" onsubmit="submitForm(event)">
+        <label for="tableSelect">Choose a table:</label>
+        <select name="table" id="tableSelect" required>
+            <option value="">Select a Table</option>
+            <option value="BOOKS">Books</option>
+            <option value="PUBLISHER">Publisher</option>
+            <option value="PUBLISHES">Publishes</option>
+            <!-- Add other table options as needed -->
+        </select>
+        <label for="idInput">ID to delete:</label>
+        <input type="number" id="idInput" name="id" required>
+        <button type="submit">Delete</button>
+    </form>
+
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+            const table = document.getElementById('tableSelect').value;
+            const id = document.getElementById('idInput').value;
+            if (table && id) {
+                const actionUrl = `/delete_data/${table}/${id}`;
+                fetch(actionUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                }).then(data => {
+                    console.log(data);
+                    // Redirect or handle success
+                    window.location.href = `/display_data/${table}`;
+                }).catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
